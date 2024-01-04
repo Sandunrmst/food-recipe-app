@@ -4,8 +4,11 @@ import { GlobalContext } from "../../context";
 
 const Navbar = () => {
   //Access GlobalContext values
-  const { searchParam, setSearchParam } = useContext(GlobalContext);
+  const { searchParam, setSearchParam, handleSubmit } =
+    useContext(GlobalContext);
+
   console.log(searchParam);
+
   return (
     <nav className="flex justify-between items-center py-8 container mx-auto flex-col lg:flex-row gap-5 lg:gap-0 ">
       <h2 className="text-2xl font-semibold">
@@ -17,7 +20,7 @@ const Navbar = () => {
         </NavLink>
       </h2>
 
-      <form>
+      <form onSubmit={handleSubmit}>
         <input
           type="text"
           name="search"
