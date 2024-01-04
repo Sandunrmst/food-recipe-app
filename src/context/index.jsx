@@ -33,7 +33,7 @@ export default function GlobalState({ children }) {
   console.log(loading, recipeList);
   return (
     <GlobalContext.Provider
-      value={{ searchParam, setSearchParam, handleSubmit }}
+      value={{ searchParam, loading, recipeList, setSearchParam, handleSubmit }}
     >
       {children}
     </GlobalContext.Provider>

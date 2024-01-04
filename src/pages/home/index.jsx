@@ -1,7 +1,27 @@
-import React from "react";
+import React, { useContext } from "react";
+import { GlobalContext } from "../../context";
+import RecipeItem from "../../components/recipe";
 
 const Home = () => {
-  return <div>Home</div>;
+  const { loading, recipeList } = useContext(GlobalContext);
+
+  if (loading) return <div>Loading...</div>;
+
+  return (
+    <div className="py-8 container mx-auto flex flex-wrap justify-center gap-10">
+      {recipeList && recipeList.length > 0 ? (
+        recipeList.map((item, index) => (
+          <RecipeItem key={item.id} item={item} />
+        ))
+      ) : (
+        <div>
+          <p className="lg:text-4xl text-xl text-center text-black font-extrabold">
+            No Items found please search something
+          </p>
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default Home;
