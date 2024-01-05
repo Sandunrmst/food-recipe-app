@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export const GlobalContext = createContext(null);
@@ -10,8 +10,36 @@ export default function GlobalState({ children }) {
   const [recipeDetailsData, setRecipeDetailsData] = useState(null);
   const [favoritesList, setFavoritesList] = useState([]);
 
+  const [defaultRecipeList, setDefaultRecipeList] = useState([]);
+
   const navigate = useNavigate();
 
+  //default recipe List
+  async function defaultList() {
+    const def = "apple";
+    try {
+      setLoading(true);
+      const response = await fetch(
+        `https://forkify-api.herokuapp.com/api/v2/recipes?search=${def}`
+      );
+
+      const data = await response.json();
+      if (data?.data?.recipes) {
+        setDefaultRecipeList(data?.data?.recipes);
+        setLoading(false);
+      }
+    } catch (error) {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    defaultList();
+  }, []);
+
+  console.log(defaultRecipeList, "default List");
+
+  //user search and submit
   async function handleSubmit(event) {
     event.preventDefault();
     try {
@@ -69,6 +97,7 @@ export default function GlobalState({ children }) {
         setRecipeDetailsData,
         handleAddFavorite,
         favoritesList,
+        defaultRecipeList,
       }}
     >
       {children}
