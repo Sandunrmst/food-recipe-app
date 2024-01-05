@@ -6,9 +6,14 @@ const Details = () => {
   //Extract current ID each details page.
   const params = useParams();
 
-  const { recipeDetailsData, setRecipeDetailsData } = useContext(GlobalContext);
+  const {
+    recipeDetailsData,
+    setRecipeDetailsData,
+    handleAddFavorite,
+    favoritesList,
+  } = useContext(GlobalContext);
 
-  console.log(params);
+  // console.log(params);
 
   async function getRecipeDetails() {
     const response = await fetch(
@@ -44,8 +49,15 @@ const Details = () => {
           {recipeDetailsData?.recipe?.title}
         </h3>
         <div>
-          <button className="p-3 px-8 rounded-lg text-sm uppercase font-medium tracking-wider mt-3 inline-block shadow-md bg-black text-white">
-            Save as Favorites
+          <button
+            onClick={() => handleAddFavorite(recipeDetailsData?.recipe)}
+            className="p-3 px-8 rounded-lg text-sm uppercase font-medium tracking-wider mt-3 inline-block shadow-md bg-black text-white"
+          >
+            {favoritesList.findIndex(
+              (item) => item.id === recipeDetailsData?.recipe?.id
+            ) !== -1
+              ? "Remove from favorites"
+              : "Add to favorites"}
           </button>
         </div>
         <div>
